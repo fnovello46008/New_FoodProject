@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-
+import TabOneScreen from './TabOneScreen';
 
 export default function TabThreeScreen({ navigation: { navigate } }) {
 
@@ -29,11 +29,11 @@ fetch(`https://api.spoonacular.com/food/products/upc/${data.substring(1)}?apiKey
     .then((response) => response.json())
     .then((responseJson) => {
       alert(responseJson.title);
-      console.log(responseJson.title);
+      //console.log(responseJson.title);
 
       navigate('TabOneScreen', {
         screen: 'TabOneScreen',
-        info: responseJson.title
+        foodName: responseJson.title,
       });
 
     })
