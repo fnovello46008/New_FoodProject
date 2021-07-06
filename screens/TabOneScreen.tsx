@@ -1,17 +1,16 @@
+import { TabRouter } from '@react-navigation/native';
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
+import { useRoute } from '@react-navigation/native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+export default function TabOneScreen({route, navigation}) {
 
-export default function TabOneScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-    </View>
-  );
+    return (
+      <View style={styles.container}>
+        {/* <Text>Product: {info}</Text> */}
+        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      </View>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -30,3 +29,4 @@ const styles = StyleSheet.create({
     width: '80%',
   },
 });
+
