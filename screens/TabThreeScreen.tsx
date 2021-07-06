@@ -9,9 +9,6 @@ export default function TabThreeScreen({ navigation: { navigate } }) {
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
 
-    
-
-
     useEffect(() => {
       (async () => {
         const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -20,7 +17,6 @@ export default function TabThreeScreen({ navigation: { navigate } }) {
     }, []);
 
 
-  
     const handleBarCodeScanned = ({ type, data }) => {
       setScanned(true);
       //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
@@ -31,9 +27,11 @@ fetch(`https://api.spoonacular.com/food/products/upc/${data.substring(1)}?apiKey
       alert(responseJson.title);
       //console.log(responseJson.title);
 
+      ///THIS IS TAB A
       navigate('TabOneScreen', {
         screen: 'TabOneScreen',
-        foodName: responseJson.title,
+        info: {text:responseJson.title, other:"asdf"}
+        //** CALL FUNCTION TAB B */
       });
 
     })
@@ -42,8 +40,6 @@ fetch(`https://api.spoonacular.com/food/products/upc/${data.substring(1)}?apiKey
     });
 
     //console.log(data);
-
-
     };
   
     if (hasPermission === null) {

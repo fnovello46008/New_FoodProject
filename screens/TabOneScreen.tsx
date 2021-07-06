@@ -1,35 +1,68 @@
-import { TabRouter } from '@react-navigation/native';
+import { TabRouter, useFocusEffect } from '@react-navigation/native';
 import * as React from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import { StyleSheet, View, Text, Button, FlatList } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useState } from 'react';
 import { Component } from 'react';
 
 import FoodItem from './FoodItem';
-
-
+import { ScrollView } from 'react-native';
 
 export default function TabOneScreen({route, navigation}){
 
-  React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      console.log(route)
-    });
+  const [isloaded, setLoaded] = useState(false)
+  const [Food, setFood] = useState([{}]);
 
-    // Return the function to unsubscribe from the event so it gets removed on unmount
-    return unsubscribe;
-  }, [navigation]);
+  const [todos, setTodos] = useState([
+    {text: 'buy coffee', key: '1'}
+  ]);
+
+  const addFoodItem = (item) => {
+    console.log("ADDED " + item.text)
+    addItem(item);
+  }
+
+  const addItem = (name) => {
+    setFood(previous =>[...previous, name]);
+  }
+
+  useFocusEffect(
+    React.useCallback(() => {
+
+        if(isloaded == false)
+        {
+          if(route.params?.info)
+          {
+            addFoodItem(route.params.info)
+          }
+       
+        }
+  
+      return () => {
+        setLoaded(false)
+      };
+    },[route.params?.info])
+  );
 
   return(
-      <View style={styles.container}></View>
+    <ScrollView style={styles.container}>
+      <View >
+        {
+          Food.map((data, index)=>{
+            if(data.text != null)
+            {
+              return (<FoodItem key={index} name={data.text} />)
+            }
+          })
+        }
+      </View>
+      </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   title: {
     fontSize: 20,
@@ -41,12 +74,3 @@ const styles = StyleSheet.create({
     width: '80%',
   },
 });
-
-function render() {
-  throw new Error('Function not implemented.');
-}
-
-function componentDidMount() {
-  throw new Error('Function not implemented.');
-}
-
